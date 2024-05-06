@@ -3,5 +3,5 @@ const { createComment, deleteComment } = require('../controllers/comment.control
 
 router.post('/create', createComment);
 router.delete('/:id/delete', deleteComment);
- 
+
 module.exports = router;

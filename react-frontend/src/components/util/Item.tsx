@@ -13,7 +13,7 @@ const Item = (props: Props) => {
       {icon !== undefined &&
         (icon ? (
           <img
-            src={icon}
+            src={icon||"https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1lU3pR.img?w=800&h=435&q=60&m=2&f=jpg"}
             alt={text}
             className={`mr-4 ${size} ${variant === 'ROUND' ? 'rounded-full object-cover' : ''}`}
           />

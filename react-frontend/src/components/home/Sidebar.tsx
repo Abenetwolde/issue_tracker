@@ -1,11 +1,9 @@
-import { lazy, Suspense as S, useState } from 'react';
+import { lazy, Suspense as S, useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useAuthUserQuery } from '../../api/endpoints/auth.endpoint';
 import IconBtn from '../util/IconBtn';
-import Avatar from '../util/Avatar';
+// import Avatar from '../util/Avatar';
 import { setTheme, Theme } from '../../utils';
-import { APIERROR } from '../../api/apiTypes';
 import axiosDf from '../../api/axios';
 import toast from 'react-hot-toast';
 const Profile = lazy(() => import('./Profile'));
@@ -20,12 +18,25 @@ function Sidebar(props: Props) {
     theme: { mode },
     toggleTheme,
   } = props;
-  const { data: u, error } = useAuthUserQuery();
+  const [user, setUser] = useState<any>(); // State to hold user data
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
-
+  useEffect(  () => {
+    // Load user data from local storage on component mount
+    const userDataStr = 
+    
+    localStorage.getItem('profile');
+    if (userDataStr) {
+      const userData = JSON.parse(userDataStr);
+      console.log("userdatafirst", userData);
+      setUser(userData);
+    } else {
+      // Handle case when data doesn't exist in local storage
+      console.log("No user data found in local storage");
+    }
+  }, []);
+console.log("userdata........",user)
   const handleToggle = () => {
     toggleTheme();
     setTheme(mode);
@@ -36,6 +47,9 @@ function Sidebar(props: Props) {
     toast('Logged out!');
     navigate('/login');
   };
+
+  // if (!user) return <Navigate to='/login' />; // Redirect to login if user data is not available
+
   return (
     <div className='flex min-h-screen shrink-0'>
       <div className='flex w-14 flex-col items-center justify-between bg-primary py-6'>
@@ -52,15 +66,15 @@ function Sidebar(props: Props) {
           />
         </div>
         <div className='flex flex-col gap-6'>
-          {u && (
+          {user && (
             <>
-              <Avatar
+              {/* <Avatar
                 title='Profile'
-                src={u.profileUrl}
-                name={u.username}
+                // src={user.profileUrl}
+                name={user.email}
                 onClick={() => setIsOpen((p) => !p)}
                 className='h-9 w-9 border-[1px] hover:border-green-500'
-              />
+              /> */}
               <IconBtn onClick={handleLogOut} icon='charm:sign-out' title='Log Out' />
             </>
           )}
@@ -71,9 +85,9 @@ function Sidebar(props: Props) {
         animate={{ width: isOpen ? 320 : 0 }}
         transition={{ type: 'tween' }}
       >
-        {u && (
+        {user && (
           <S>
-            <Profile authUser={u} />
+            <Profile authUser={user} />
           </S>
         )}
       </motion.div>

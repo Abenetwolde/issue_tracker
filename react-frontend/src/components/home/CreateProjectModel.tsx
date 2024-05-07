@@ -7,6 +7,8 @@ import WithLabel from '../util/WithLabel';
 import Model from '../util/Model';
 import Item from '../util/Item';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 interface Props {
   onClose: () => void;
@@ -22,10 +24,27 @@ const CreateProjectModel = (props: Props) => {
 
     formState: { errors, isSubmitting: isLoading },
   } = useForm();
+  const [user, setUser] = useState<any>(); // State to hold user data
 
+  const navigate = useNavigate();
+
+  useEffect(  () => {
+    // Load user data from local storage on component mount
+    const userDataStr = 
+    
+    localStorage.getItem('profile');
+    if (userDataStr) {
+      const userData = JSON.parse(userDataStr);
+
+      setUser(userData);
+    } else {
+      // Handle case when data doesn't exist in local storage
+      console.log("No user data found in local storage");
+    }
+  }, []);
   const handleCreateProject = async (form: FieldValues) => {
-    if (!authUser) return;
-    await createProject({ ...form, userId: authUser.id } as CreateProject);
+    if (!user) return;
+    await createProject({ ...form, userId: user.id } as CreateProject);
     toast('Created a new project!');
     onClose();
   };
@@ -62,13 +81,13 @@ const CreateProjectModel = (props: Props) => {
             error={errors.repo as FieldError}
           />
         </div>
-        {authUser && (
+        {user && (
           <WithLabel label='Members'>
             <>
               <div className='mb-2 rounded-sm border-[1px] border-gray-300 bg-slate-100 py-1 px-3 text-sm text-c-text'>
                 <Item
-                  text={authUser.username}
-                  icon={authUser.profileUrl}
+                  text={user.name}
+                   icon={user.profileUrl}
                   size='h-6 w-6'
                   variant='ROUND'
                 />

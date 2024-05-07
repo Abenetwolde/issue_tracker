@@ -27,10 +27,13 @@ function Form(props: Props) {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const submit = handleSubmit(async (form) => {
-    
+
     try {
-      await onSubmit(form);
+      const userdata = await onSubmit(form);
       toast(type === 'LOGIN' ? 'You have logged in!' : 'Your account is created!');
+      localStorage.setItem('accessToken', userdata.accessToken);
+      localStorage.setItem('refreshToken', userdata.refreshToken);
+      localStorage.setItem('profile', JSON.stringify(userdata.profile));
       navigate('/project');
       // window.location.replace('https://jira-replica.vercel.app/project'); //with refresh
     } catch (error) {
@@ -99,8 +102,8 @@ function Form(props: Props) {
             ? 'registering ...'
             : 'Join now'
           : loading
-          ? 'logging in ...'
-          : 'Log In'}
+            ? 'logging in ...'
+            : 'Log In'}
       </button>
     </form>
   );

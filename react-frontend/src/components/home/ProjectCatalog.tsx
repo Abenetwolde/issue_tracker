@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { APIERROR } from '../../api/apiTypes';
 import { selectAuthUser } from '../../api/endpoints/auth.endpoint';
 import { useProjectsQuery } from '../../api/endpoints/project.endpoint';
@@ -9,27 +9,45 @@ import CreateProjectModel from './CreateProjectModel';
 import ProjectRow from './ProjectRow';
 
 const ProjectCatalog = () => {
-  const { authUser } = selectAuthUser();
-  const {
-    data: projects,
-    error,
-    isLoading,
-  } = useProjectsQuery(authUser?.id as number, { skip: !authUser });
+  // const { authUser } = selectAuthUser();
+  // const {
+  //   data: projects,
+  //   error,
+  //   isLoading,
+  // } = useProjectsQuery(authUser?.id as number, { skip: !authUser });
+  const [user, setUser] = useState<any>(); // State to hold user data
+  const navigate = useNavigate();
+
+  useEffect(  () => {
+    // Load user data from local storage on component mount
+    const userDataStr = 
+    
+    localStorage.getItem('profile');
+    if (userDataStr) {
+      const userData = JSON.parse(userDataStr);
+      console.log("userdatafirst", userData);
+      setUser(userData);
+    } else {
+      // Handle case when data doesn't exist in local storage
+      console.log("No user data found in local storage");
+    }
+  }, []);
   const [isOpen, setIsOpen] = useState(false);
 
-  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
+  // if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
-  if (!authUser || isLoading)
-    return (
+  // if (!authUser || isLoading)
+
+    if (!user)return (
       <div className='z-10 grid w-full place-items-center bg-c-1 text-xl text-c-text'>
-        {isLoading ? (
+        {/* {isLoading ? (
           'Fetching your projects 🚀'
-        ) : (
+        ) : ( */}
           <div className='flex items-center gap-6'>
             <span className='text-base'>Server is having a cold start</span>
             <SS />
           </div>
-        )}
+        {/* )} */}
       </div>
     );
 
@@ -62,7 +80,7 @@ const ProjectCatalog = () => {
             <div className='min-w-[18rem] grow px-2'>Description</div>
             <div className='w-52 shrink-0 px-2'>Lead</div>
           </div>
-          {projects ? (
+          {/* {projects ? (
             projects.length !== 0 ? (
               <div className='mt-1 border-t-2 border-c-3'>
                 {projects.map((data, i) => (
@@ -74,7 +92,7 @@ const ProjectCatalog = () => {
                 You haven't created any project yet!! 🚀
               </div>
             )
-          ) : null}
+          ) : null} */}
         </div>
       </div>
       {isOpen && <CreateProjectModel onClose={() => setIsOpen(false)} />}

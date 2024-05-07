@@ -65,7 +65,7 @@ exports.authMiddleware = (req, res, next) => {
 	if (!cookie) return res.status(401).json({ status: 401, message: 'please log in to access this resource' }).end()
 	const token = JSON.parse(cookie).token
 	try {
-		const payload = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET)
+		const payload = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET||"oksflsldfmksd")
 		req.user = payload
 		next()
 	} catch (err) {

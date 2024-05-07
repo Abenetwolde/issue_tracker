@@ -9,6 +9,7 @@ interface Props {
 
 function Avatar(props: Props) {
   const { src, name, title, className, onClick, style } = props;
+  console.log("log on avatar",props)
   return (
     <div
       className={`relative grid shrink-0 cursor-pointer place-items-center overflow-hidden rounded-full bg-green-600 ${

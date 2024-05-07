@@ -57,6 +57,7 @@ const Welcome = (props: Props) => {
 export default Welcome;
 
 const logIn = async (body: FieldValues) => {
+  console.log("boday",body)
   const result = await axiosDf.post('auth/login', body, 
     );
   return result.data;

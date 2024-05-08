@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { api } from '../api/api';
 import queryReducer from './slices/querySlice';
-
+import authSlice  from '../redux/user/userSlice';
+// import { authApi } from '../user/authApi';
+import { authApi } from '../redux/user/authApi';
 export const store = configureStore({
   reducer: {
+    auth: authSlice,
+    [authApi.reducerPath]: authApi.reducer,
     [api.reducerPath]: api.reducer,
     query: queryReducer,
   },

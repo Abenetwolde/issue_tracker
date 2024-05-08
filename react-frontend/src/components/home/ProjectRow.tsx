@@ -12,15 +12,16 @@ interface Props extends Project {
 }
 
 const ProjectRow = (props: Props) => {
-  const { idx, id, name, descr, repo, userId, authUserId } = props;
-  const { members } = selectMembers(id);
-  const { data: publicUser } = usePublicUserQuery(userId);
+  // const { idx, id, name, descr, repo, userId, authUserId } = props;
+  const { idx, id, title, description, isActive, createdBy, updatedBy,createdAt, archiveReason,authUserId } = props;
+  // const { members } = selectMembers(id);
+  // const { data: publicUser } = usePublicUserQuery(userId);
   const [on, setOn] = useState(false);
   const navigate = useNavigate();
 
-  if (!members) return null;
+  // if (!members) return null;
 
-  const { isAdmin, id: memberId } = members.filter(({ userId: u }) => u === authUserId)[0];
+  // const { isAdmin, id: memberId } = members.filter(({ userId: u }) => u === authUserId)[0];
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
@@ -35,12 +36,12 @@ const ProjectRow = (props: Props) => {
         onClick={() => navigate(id + '/board')}
       >
         <div className='w-8 shrink-0 text-center'>{idx + 1}</div>
-        <div className='min-w-[10rem] grow px-2'>{name}</div>
-        <div className='min-w-[18rem] grow px-2'>{descr}</div>
-        <div className='w-52 shrink-0 px-2'>
+        <div className='min-w-[10rem] grow px-2'>{title}</div>
+        <div className='min-w-[18rem] grow px-2'>{description}</div>
+        {/* <div className='w-52 shrink-0 px-2'>
           {publicUser?.username}
           {isAdmin ? <span className='ml-1 text-sm font-bold'>(you)</span> : ''}
-        </div>
+        </div> */}
         <button
           title='Delete or Leave'
           onClick={handleDelete}
@@ -49,7 +50,7 @@ const ProjectRow = (props: Props) => {
           <Icon icon='bx:trash' className='text-red-500' />
         </button>
       </div>
-      {on && publicUser && (
+      {/* {on && publicUser && (
         <S>
           <DeleteProject
             projectId={id}
@@ -57,7 +58,7 @@ const ProjectRow = (props: Props) => {
             onClose={() => setOn(false)}
           />
         </S>
-      )}
+      )} */}
     </div>
   );
 };

@@ -7,10 +7,12 @@ import {
   UseFormHandleSubmit,
   UseFormRegister,
 } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { APIERROR } from '../../api/apiTypes';
 import InputWithValidation from '../util/InputWithValidation';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { setToken, setUser } from '../../redux/user/userSlice';
 interface Props {
   register: UseFormRegister<FieldValues>;
   errors: FieldErrorsImpl<{
@@ -23,6 +25,7 @@ interface Props {
 }
 
 function Form(props: Props) {
+  const dispatch=useDispatch()
   const { register, onSubmit, handleSubmit, errors, loading, type } = props;
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -31,9 +34,11 @@ function Form(props: Props) {
     try {
       const userdata = await onSubmit(form);
       toast(type === 'LOGIN' ? 'You have logged in!' : 'Your account is created!');
-      localStorage.setItem('accessToken', userdata.accessToken);
-      localStorage.setItem('refreshToken', userdata.refreshToken);
-      localStorage.setItem('profile', JSON.stringify(userdata.profile));
+      // localStorage.setItem('accessToken', userdata.accessToken);
+      // localStorage.setItem('refreshToken', userdata.refreshToken);
+      // localStorage.setItem('profile', JSON.stringify(userdata.profile));
+      dispatch(setToken(userdata.accessToken))
+      dispatch(setUser(userdata.profile))
       navigate('/project');
       // window.location.replace('https://jira-replica.vercel.app/project'); //with refresh
     } catch (error) {

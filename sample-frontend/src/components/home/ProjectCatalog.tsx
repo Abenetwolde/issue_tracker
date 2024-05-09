@@ -17,7 +17,7 @@ const ProjectCatalog = () => {
   } = useProjectsQuery(authUser?.id as number, { skip: !authUser });
   const [isOpen, setIsOpen] = useState(false);
 
-  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
+  // if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   if (!authUser || isLoading)
     return (

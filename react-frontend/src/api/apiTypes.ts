@@ -69,6 +69,7 @@ export interface Project {
   descr?: string;
   repo?: string;
   userId: number;
+  headers:any
 }
 
 export type CreateProject = Omit<Project, 'id'>;

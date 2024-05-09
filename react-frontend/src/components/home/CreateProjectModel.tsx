@@ -9,7 +9,10 @@ import Item from '../util/Item';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
+import Switch from '@mui/material/Switch';
+import { RootState } from '../../store/store';
+import {useSelector} from "react-redux"
+import axiosDf from '../../api/axios';
 interface Props {
   onClose: () => void;
 }
@@ -18,6 +21,11 @@ const CreateProjectModel = (props: Props) => {
   const { onClose } = props;
   const { data: authUser } = useAuthUserQuery();
   const [createProject] = useCreateProjectMutation();
+ 
+  const [isActive, setIsActive] = useState(false); 
+  const handleChange = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+    setIsActive(event.target.checked); // Update isActive state
+  };
   const {
     register,
     handleSubmit,
@@ -27,6 +35,7 @@ const CreateProjectModel = (props: Props) => {
   const [user, setUser] = useState<any>(); // State to hold user data
 
   const navigate = useNavigate();
+  const token = useSelector((state:RootState)=>state.auth.token)
 
   useEffect(  () => {
     // Load user data from local storage on component mount
@@ -44,8 +53,15 @@ const CreateProjectModel = (props: Props) => {
   }, []);
   const handleCreateProject = async (form: FieldValues) => {
     if (!user) return;
-    await createProject({ ...form, userId: user.id } as CreateProject);
-    toast('Created a new project!');
+    console.log('Created a new project!',{ ...form, isActive: isActive })
+ 
+
+    const body:any ={ ...form, isActive: isActive }
+    axiosDf.post("projects/create-project",body,{headers:{
+      Authorization: `Bearer ${token}`
+    }}).then((data)=>console.log("create project",data))
+    
+    toast('Created a new project!',form);
     onClose();
   };
 
@@ -57,12 +73,12 @@ const CreateProjectModel = (props: Props) => {
         </div>
         <div className='flex flex-col gap-4'>
           <InputWithValidation
-            label='Project name'
+            label='Project Title'
             placeholder='name of your project'
-            register={register('name', {
+            register={register('title', {
               required: {
                 value: true,
-                message: 'Project name must not be empty',
+                message: 'Project title must not be empty',
               },
             })}
             error={errors.name as FieldError}
@@ -71,23 +87,29 @@ const CreateProjectModel = (props: Props) => {
           <InputWithValidation
             label='Short description'
             placeholder='describe your project in a few words'
-            register={register('descr')}
+            register={register('description')}
             error={errors.descr as FieldError}
           />
-          <InputWithValidation
-            label='Repository link'
-            placeholder="link to the Project's repository"
-            register={register('repo')}
-            error={errors.repo as FieldError}
+           <div className="flex items-center">
+          <label htmlFor="isActive">IsActive</label>
+          <Switch
+            id="isActive"
+            checked={isActive}
+            onChange={handleChange}
+            // {...register('isActive')} // Register isActive field
           />
+             {/* <input type="hidden" {...register('isActive')} />  */}
         </div>
-        {user && (
+      
+        </div>
+        
+         {user && (
           <WithLabel label='Members'>
             <>
               <div className='mb-2 rounded-sm border-[1px] border-gray-300 bg-slate-100 py-1 px-3 text-sm text-c-text'>
                 <Item
                   text={user.name}
-                   icon={user.profileUrl}
+                   icon={user.name}
                   size='h-6 w-6'
                   variant='ROUND'
                 />
@@ -97,7 +119,7 @@ const CreateProjectModel = (props: Props) => {
               </span>
             </>
           </WithLabel>
-        )}
+        )} 
       </>
     </Model>
   );

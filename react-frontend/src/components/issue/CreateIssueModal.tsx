@@ -19,9 +19,9 @@ const CreateIssueModel = (props: IssueModalProps) => {
   const [err, setErr] = useState('');
   const projectId = Number(useParams().projectId);
 
-  if (!u) return null;
+  // if (!u) return null;
 
-  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
+  // if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   const handleCreateIssue = async () => {
     if (!form.summary) return setErr('summary must not be empty');

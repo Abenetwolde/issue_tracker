@@ -37,7 +37,7 @@ const ProjectCatalog = () => {
         console.error('Error fetching projects:', error);
       });
     }else{
-      navigate("/login")
+      // navigate("/login")
     }
     // Load user data from local storage on component mount
 

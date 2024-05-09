@@ -9,8 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/styled": "^11.11.5",
     "@hello-pangea/dnd": "^16.0.0",
     "@iconify/react": "^4.0.0",
+    "@mui/material": "^5.15.17",
+    "@mui/styled-engine": "^5.15.14",
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.0.0",
     "framer-motion": "^7.5.2",

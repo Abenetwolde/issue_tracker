@@ -5,7 +5,7 @@ export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     lists: builder.query<List[], number>({
       query: (projectId) => ({
-        url: `project/${projectId}/lists`,
+        url: `projects/get-projects${projectId}`,
       }),
       providesTags: ['Lists'],
     }),

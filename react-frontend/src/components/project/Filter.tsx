@@ -29,7 +29,7 @@ function Filter(props: Props) {
   const [fold, setFold] = useState(true);
   const len = m?.length;
 
-  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
+  // if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   function handleClick() {
     if (isEmpty) return toast.error('Please create a list first!');

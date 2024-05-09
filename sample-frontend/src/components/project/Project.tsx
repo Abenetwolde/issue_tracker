@@ -20,8 +20,8 @@ const Project = () => {
   );
 
   if (listError && issueError) {
-    if ((listError as APIERROR).status === 401 || (issueError as APIERROR).status === 401)
-      return <Navigate to='/login' />;
+    // if ((listError as APIERROR).status === 401 || (issueError as APIERROR).status === 401)
+    //   return <Navigate to='/login' />;
     return (
       <div className='grid h-full grow place-items-center text-xl'>
         You are not part of this project ☝

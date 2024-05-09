@@ -1,20 +1,26 @@
+import { RootState } from '@reduxjs/toolkit/query';
 import { api } from '../api';
 import type { CreateProject, EditProject, LeaveProject, Project } from '../apiTypes';
+
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     projects: builder.query<Project[], number>({
-      query: (userId) => ({ url: `user/${userId}/projects` }),
+      query: (userId) => ({ url: `projects/create-project` }),
       providesTags: ['Project'],
     }),
     project: builder.query<Project, number>({
-      query: (projectId) => ({
+      query: (projectId: string, token: any) => ({
         url: 'project/' + projectId,
+        headers:{
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA4YjU5MjUxLTAwODEtNDA0Mi1hMTZiLTE5MmJkMDkwNzU2YyIsImlzQWRtaW4iOnRydWUsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwibmFtZSI6IkFkbWluIiwiZ2VuZGVyIjoibWFsZSIsImpvYlRpdGxlIjoiIiwicGhvbmVOdW1iZXIiOiIrMjUxMTExMTExMTExMSIsImlhdCI6MTcxNTI1NzIwNCwiZXhwIjoxNzE1MjYwODA0fQ.XjTONu0hmW9X1NYwao6LmczgbpHd3gqfmI2JST1w8yQ`
+        }// Pass headers to the request
       }),
       providesTags: ['Project'],
     }),
     createProject: builder.mutation<Project, CreateProject>({
-      query: (body) => ({ url: 'project/create', method: 'POST', body }),
+      
+      query: (body: any) => ({ url: 'projects/create-project', method: 'POST', body}),
       invalidatesTags: ['Project'],
     }),
     deleteProject: builder.mutation<void, number>({

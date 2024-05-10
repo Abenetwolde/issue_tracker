@@ -20,6 +20,7 @@ const Project = () => {
   const userid = useSelector((state: RootState) => state.auth.user.id)
   const [singleprojects, setSingleProjects] = useState</* APIERROR */| null>(null);
   const [singleprojectsTask, setSingleProjectsTasks] = useState</* APIERROR */| null>(null);
+  const [issue, setSingleProjectsTasksIssu] = useState</* APIERROR */| null>(null);
   useEffect( () => {
     if(token){
       axiosDf.get(`projects/get-project/${projectId}`, {
@@ -50,6 +51,7 @@ const Project = () => {
       }) .then((response: { data: any; }) => {
         // Handle successful response
         setSingleProjectsTasks(response?.data);
+        setSingleProjectsTasksIssu(response?.data.data);
       })
       .catch(error => {
         // Handle error
@@ -81,16 +83,16 @@ const Project = () => {
   return (
     <div className='mt-6 flex grow flex-col px-8 sm:px-10'>
       <h1 className='mb-4 text-xl font-semibold text-c-text'>Kanban Board</h1>
-      {/* <Filter isEmpty={singleprojects?.length === 0} {...{ projectId, setIsDragDisabled }} /> */}
+    <Filter isEmpty={singleprojects?.length === 0} {...{ projectId, setIsDragDisabled }} /> 
    
-{/* 
+
       {singleprojects ? (
-        <Board {...{ singleprojects, issues, isDragDisabled }} />
+        <Board {...{ singleprojects, issue, isDragDisabled }} />
       ) : (
         <div className='grid h-[40vh] w-full place-items-center'>
           <SS />
         </div>
-      )}  */}
+      )}  
     </div>
   );
 };

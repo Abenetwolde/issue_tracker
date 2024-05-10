@@ -16,29 +16,31 @@ interface Props {
 }
 
 const Board = (props: Props) => {
-  const { lists, issues, isDragDisabled } = props;
+  // const { lists, issues, isDragDisabled } = props;
+  const { singleprojects, issue, isDragDisabled } = props;
+  console.log("props..........",props)
   const [reorderLists] = useReorderListsMutation();
   const [reorderIssues] = useReorderIssuesMutation();
   const [createList, { isLoading }] = useCreateListMutation();
   const projectId = Number(useParams().projectId);
 
-  const onDragEnd = ({ type, source: s, destination: d }: DropResult) => {
-    if (!lists! || !issues || !d || (s.droppableId === d.droppableId && s.index === d.index))
-      return;
-    type === 'list'
-      ? reorderLists({
-          id: lists[s.index].id,
-          order: s.index + 1, // change index to actual order
-          newOrder: d.index + 1, // change index to actual order
-          projectId,
-        })
-      : reorderIssues({
-          id: issues[parseId(s)][s.index].id,
-          s: { sId: parseId(s), order: s.index + 1 }, // change index to actual order
-          d: { dId: parseId(d), newOrder: d.index + 1 }, // change index to actual order
-          projectId,
-        });
-  };
+  // const onDragEnd = ({ type, source: s, destination: d }: DropResult) => {
+  //   if (!lists! || !issues || !d || (s.droppableId === d.droppableId && s.index === d.index))
+  //     return;
+  //   type === 'list'
+  //     ? reorderLists({
+  //         id: lists[s.index].id,
+  //         order: s.index + 1, // change index to actual order
+  //         newOrder: d.index + 1, // change index to actual order
+  //         projectId,
+  //       })
+  //     : reorderIssues({
+  //         id: issues[parseId(s)][s.index].id,
+  //         s: { sId: parseId(s), order: s.index + 1 }, // change index to actual order
+  //         d: { dId: parseId(d), newOrder: d.index + 1 }, // change index to actual order
+  //         projectId,
+  //       });
+  // };
 
   const handleCreateList = async () => {
     await createList({ projectId });
@@ -47,22 +49,23 @@ const Board = (props: Props) => {
 
   return (
     <div className='mb-5 flex min-w-max grow items-start'>
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragEnd={null}>
         <DroppableWrapper
           type='list'
           className='flex items-start'
           droppableId='board-central'
           direction='horizontal'
         >
-          {lists.map((props, i) => (
+        {issue?.map((props, i) => (
             <List
               key={props.id}
               idx={i}
-              issues={issues?.[props.id]}
+              issues={props}
               isDragDisabled={isDragDisabled}
               {...props}
             />
           ))}
+         
         </DroppableWrapper>
         <button
           onClick={handleCreateList}

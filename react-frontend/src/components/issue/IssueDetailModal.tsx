@@ -20,42 +20,43 @@ import toast from 'react-hot-toast';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
 const IssueDetailModal = (props: IssueModalProps) => {
-  const { issue: Issue, projectId, members, lists, types, priorities, onClose } = props;
-  const issue = Issue as IssueMetaData;
-  const { userId } = useAppSelector((s) => s.query.issue);
-  const { issues } = selectIssuesArray({ listId: issue.listId, projectId, userId });
-  const { authUser: u } = selectAuthUser();
-  const {
-    id,
-    type,
-    listId,
-    reporterId,
-    priority,
-    assignees,
-    summary,
-    descr,
-    createdAt,
-    updatedAt,
-  } = issues[issue.idx];
-  const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {}) as Category[];
-  const [updateIssue] = useUpdateIssueMutation();
-  const [deleteIssue] = useDeleteIssueMutation();
-  const [isOpen, setIsOpen] = useState(false);
-  const isMine = reporterId === u?.id;
-  const reporter = members.filter(({ value }) => value === reporterId)[0];
+  // const { issue: Issue, projectId, members, lists, types, priorities, onClose } = props;
+  // const issue = Issue as IssueMetaData;
+  // const { userId } = useAppSelector((s) => s.query.issue);
+  // const { issues } = selectIssuesArray({ listId: issue.listId, projectId, userId });
+  // const { authUser: u } = selectAuthUser();
+  // const {
+  //   id,
+  //   type,
+  //   listId,
+  //   reporterId,
+  //   priority,
+  //   assignees,
+  //   summary,
+  //   descr,
+  //   createdAt,
+  //   updatedAt,
+  // } = issues[issue.idx];
+  // const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {}) as Category[];
+  // const [updateIssue] = useUpdateIssueMutation();
+  // const [deleteIssue] = useDeleteIssueMutation();
+  // const [isOpen, setIsOpen] = useState(false);
+  // const isMine = reporterId === u?.id;
+  // const reporter = members.filter(({ value }) => value === reporterId)[0];
 
-  const dispatchMiddleware = async (data: DispatchMiddleware) => {
-    const assigneeIds = assignees.map(({ userId }) => userId);
-    const body =
-      data.type === 'assignee' ? constructApiAssignee(assigneeIds, data.value as number[]) : data;
-    if (!body) return;
-    await updateIssue({ id, body: { ...body, projectId: Number(projectId) } });
-    toast(`Updated issue ${cipher[data.type as keyof typeof cipher] ?? data.type}!`);
-  };
+  // const dispatchMiddleware = async (data: DispatchMiddleware) => {
+  //   const assigneeIds = assignees.map(({ userId }) => userId);
+  //   const body =
+  //     data.type === 'assignee' ? constructApiAssignee(assigneeIds, data.value as number[]) : data;
+  //   if (!body) return;
+  //   await updateIssue({ id, body: { ...body, projectId: Number(projectId) } });
+  //   toast(`Updated issue ${cipher[data.type as keyof typeof cipher] ?? data.type}!`);
+  // };
 
   return (
-    <Model onClose={onClose} className='max-w-[65rem]'>
-      <>
+    <Model/*  onClose={onClose} */ className='max-w-[65rem]'>
+      <p>model</p>
+      {/* <>
         <div className='mt-3 flex items-center justify-between text-[16px] text-gray-600 sm:px-3'>
           <Item size='h-4 w-4' {...types[type]} text={'Issue-' + id} />
           <div className='text-black'>
@@ -163,7 +164,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
             />
           </S>
         )}
-      </>
+      </> */}
     </Model>
   );
 };

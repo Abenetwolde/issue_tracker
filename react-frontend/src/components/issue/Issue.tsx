@@ -9,14 +9,38 @@ const IssueModelHOC = lazy(() => import('./IssueModelHOC'));
 const IssueDetailModal = lazy(() => import('./IssueDetailModal'));
 
 const Issue = (props: Props) => {
-  const { listId, listIdx, idx, summary, id, type, priority, assignees, comments, isDragDisabled } =
-    props;
+  // const { listId, listIdx, idx, summary, id, type, priority, assignees, comments, isDragDisabled } =
+  //   props;
+  
+  const {archiveReason, 
+    assigneeId, 
+    createdAt, 
+    createdBy, 
+    deletedAt, 
+    deletedBy, 
+    description, 
+    dueDate, 
+    id, 
+    idx, 
+    isDragDisabled, 
+    listId, 
+    listIdx, 
+    priority, 
+    projectId, 
+    status, 
+    tags, 
+    title, 
+    updatedAt, 
+    key,
+    updatedBy }=props
+  console.log("issue .loges.............,00",props)
   const [isOpen, setIsOpen] = useState(false);
-  const projectId = Number(useParams().projectId);
-  const { members } = selectMembers(projectId);
-  const { icon, text } = priorities[priority];
+  const [isOpenIssue, setIsOpenIssue] = useState(false);
+  // const projectId = Number(useParams().projectId);
+  // const { members } = selectMembers(projectId);
+  // const { icon, text } = priorities[priority];
 
-  if (!members) return null;
+  // if (!members) return null;
 
   return (
     <>
@@ -27,22 +51,22 @@ const Issue = (props: Props) => {
         isDragDisabled={isDragDisabled}
       >
         <div onClick={() => setIsOpen(true)}>
-          <span className=''>{summary}</span>
+          <span className=''>{title}</span>
           <div className='mt-[10px] flex items-center justify-between'>
             <div className='mb-1 flex items-center gap-3'>
-              <img className='h-[18px] w-[18px]' src={types[type].icon} alt={types[type].text} />
-              <img className='h-[18px] w-[18px]' src={icon} alt={text} />
-              {comments > 0 && (
+              {/* <img className='h-[18px] w-[18px]' src={types[type].icon} alt={types[type].text} />
+              <img className='h-[18px] w-[18px]' src={icon} alt={text} /> */}
+              {/* {comments > 0 && (
                 <span className='block w-6 rounded-md bg-c-2 text-center text-[13px]'>
                   {comments}
                 </span>
-              )}
+              )} */}
             </div>
-            <AssignedMembers assignees={assignees} members={members} />
+           <AssignedMembers assignees={assigneeId}  members={assigneeId}  /> 
           </div>
         </div>
       </DraggableWrapper>
-      {isOpen && (
+      {/* {isOpenIssue && (
         <S>
           <IssueModelHOC
             children={IssueDetailModal}
@@ -50,7 +74,7 @@ const Issue = (props: Props) => {
             issue={{ listId, listIdx, idx }}
           />
         </S>
-      )}
+      )} */}
     </>
   );
 };

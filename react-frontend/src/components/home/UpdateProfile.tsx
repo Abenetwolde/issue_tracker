@@ -15,7 +15,7 @@ function UpdateProfile({ user: u }: { user: AuthUser }) {
   const handleUpdate = async (form: FieldValues) => {
     if (
       !u ||
-      (form.username === u.username && form.email === u.email && form.profileUrl === u.profileUrl)
+      (form.name === u.name && form.email === u.email )
     )
       return;
     await updateAuthUser(form);
@@ -27,11 +27,11 @@ function UpdateProfile({ user: u }: { user: AuthUser }) {
         <InputWithValidation
           label='Username'
           placeholder='username'
-          defaultValue={u.username}
+          defaultValue={u.name}
           register={register('username', {
             required: { value: true, message: 'username must not be empty' },
           })}
-          error={errors.username as FieldError}
+          error={errors.name as FieldError}
           darkEnabled
         />
         <InputWithValidation
@@ -45,14 +45,14 @@ function UpdateProfile({ user: u }: { user: AuthUser }) {
           readOnly
           darkEnabled
         />
-        <InputWithValidation
+        {/* <InputWithValidation
           label='Photo Url'
           placeholder='profile picture'
           defaultValue={u.profileUrl}
           register={register('profileUrl')}
           error={errors.profileUrl as FieldError}
           darkEnabled
-        />
+        /> */}
       </div>
       <button onClick={handleSubmit(handleUpdate)} className='btn mt-10 w-full'>
         {loading ? 'saving ...' : 'Save Changes'}

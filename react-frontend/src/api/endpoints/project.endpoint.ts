@@ -10,10 +10,13 @@ export const extendedApi = api.injectEndpoints({
       providesTags: ['Project'],
     }),
     project: builder.query<Project, number>({
-      query: (projectId: string, token: any) => ({
-        url: 'project/' + projectId,
+      query: ({ projectId, token }:any) => (
+        
+      
+        {
+        url: 'projects/get-project/' + projectId,
         headers:{
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA4YjU5MjUxLTAwODEtNDA0Mi1hMTZiLTE5MmJkMDkwNzU2YyIsImlzQWRtaW4iOnRydWUsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwibmFtZSI6IkFkbWluIiwiZ2VuZGVyIjoibWFsZSIsImpvYlRpdGxlIjoiIiwicGhvbmVOdW1iZXIiOiIrMjUxMTExMTExMTExMSIsImlhdCI6MTcxNTI1NzIwNCwiZXhwIjoxNzE1MjYwODA0fQ.XjTONu0hmW9X1NYwao6LmczgbpHd3gqfmI2JST1w8yQ`
+          Authorization: `Bearer ${token}`
         }// Pass headers to the request
       }),
       providesTags: ['Project'],

@@ -6,6 +6,8 @@ import IconBtn from '../util/IconBtn';
 import { setTheme, Theme } from '../../utils';
 import axiosDf from '../../api/axios';
 import toast from 'react-hot-toast';
+import { useAppSelector } from '../../store/hooks';
+import Avatar from '../util/Avatar';
 const Profile = lazy(() => import('./Profile'));
 
 interface Props {
@@ -18,25 +20,12 @@ function Sidebar(props: Props) {
     theme: { mode },
     toggleTheme,
   } = props;
-  const [user, setUser] = useState<any>(); // State to hold user data
+
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(  () => {
-    // Load user data from local storage on component mount
-    const userDataStr = 
-    
-    localStorage.getItem('profile');
-    if (userDataStr) {
-      const userData = JSON.parse(userDataStr);
-      console.log("userdatafirst", userData);
-      setUser(userData);
-    } else {
-      // Handle case when data doesn't exist in local storage
-      console.log("No user data found in local storage");
-    }
-  }, []);
-console.log("userdata........",user)
+const user=useAppSelector((state)=>state.auth.user)
+
   const handleToggle = () => {
     toggleTheme();
     setTheme(mode);
@@ -68,13 +57,13 @@ console.log("userdata........",user)
         <div className='flex flex-col gap-6'>
           {user && (
             <>
-              {/* <Avatar
+              <Avatar
                 title='Profile'
                 // src={user.profileUrl}
-                name={user.email}
+                name={user.name}
                 onClick={() => setIsOpen((p) => !p)}
                 className='h-9 w-9 border-[1px] hover:border-green-500'
-              /> */}
+              />
               <IconBtn onClick={handleLogOut} icon='charm:sign-out' title='Log Out' />
             </>
           )}

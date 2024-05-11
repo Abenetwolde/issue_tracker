@@ -105,7 +105,7 @@ function Form(props: Props) {
         {type === 'SIGNUP'
           ? loading
             ? 'registering ...'
-            : 'Join now'
+            : ''
           : loading
             ? 'logging in ...'
             : 'Log In'}

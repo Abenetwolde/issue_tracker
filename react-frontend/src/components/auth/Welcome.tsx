@@ -20,9 +20,7 @@ const Welcome = (props: Props) => {
   return (
     <div className='bg-jira-gradient flex h-fit min-h-screen w-full flex-col items-center'>
       <div className='mx-auto my-16 w-11/12 max-w-[40rem] tracking-wide text-white'>
-        <h1 className='text-center text-xl font-medium sm:text-2xl lg:text-4xl lg:font-semibold'>
-          The #1 software development tool used by agile teams
-        </h1>
+     
       </div>
       <div className='mb-12 w-11/12 max-w-[24rem]'>
         <div className={`h-[40vh] place-items-center ${isLoading ? 'grid' : 'hidden'}`}>
@@ -45,7 +43,7 @@ const Welcome = (props: Props) => {
           </div>
           <Link to={isLogin ? '/register' : '/login'}>
             <span className='block text-center text-blue-600 hover:underline'>
-              {isLogin ? 'Join now' : 'Log In'}
+              {isLogin ? '' : 'Log In'}
             </span>
           </Link>
         </div>
